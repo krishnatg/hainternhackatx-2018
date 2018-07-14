@@ -28,12 +28,13 @@ app.post('/message', async (req, res) => {
   }
   // trigger this update to our pushers listeners
   pusher.trigger('chat-group', 'chat', chat)
+  console.log('chat', chat);
 
   // check if this message was invoking our bot, /bot
   if (chat.message.startsWith('/bot')) {
     const message = chat.message.split('/bot')[1]
     const response = await dialogFlow.send(message)
-    pusher.trigger('chat-group', 'chat', {
+    const botResponse = {
       message: `@${chat.displayName} ${
         response.data.result.fulfillment.speech
       }`,
@@ -41,7 +42,9 @@ app.post('/message', async (req, res) => {
       email: 'bot@we.com',
       createdAt: new Date().toISOString(),
       id: shortId.generate()
-    })
+    }
+    // pusher.trigger('chat-group', 'chat', botResponse)
+    console.log('bot response', botResponse)
   }
 
   res.send(chat)
