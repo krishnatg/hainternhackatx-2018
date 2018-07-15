@@ -1,0 +1,17 @@
+nav {
+    margin-bottom: 100px;
+}
+
+jumbotron {
+    height: 700px;
+}
+
+.card {
+    padding: 10px;
+}
+
+.mainPage {
+    padding: 0;
+    margin-right: 100px;
+    margin-left: 100px;
+}
