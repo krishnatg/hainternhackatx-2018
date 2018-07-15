@@ -2,12 +2,17 @@ nav {
     margin-bottom: 100px;
 }
 
-jumbotron {
-    height: 700px;
+.spacing {
+    margin-bottom: 30px;
+}
+
+.rowSpacing {
+    height: 670px;
 }
 
 .card {
     padding: 10px;
+    height: 300px;
 }
 
 .mainPage {

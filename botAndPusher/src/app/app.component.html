@@ -1,4 +1,15 @@
-<div class="mainPage">
+<!doctype html>
+<html ng-app="demo">
+
+    <head>
+        <title>Hello AngularJS</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+       <script src="hello.js"></script>
+    </head>
+
+    <body>
+
+<div class="mainPage" ng-controller="Hello">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top scrolling-navbar">
@@ -11,10 +22,10 @@
                 <a class="nav-link waves-light" mdbWavesEffect>Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link waves-light" mdbWavesEffect>Something</a>
+                <a class="nav-link waves-light" mdbWavesEffect>About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link waves-light" mdbWavesEffect>Something Else</a>
+                <a class="nav-link waves-light" mdbWavesEffect>Something</a>
             </li>
         </ul>
       </links>
@@ -29,45 +40,37 @@
     </div>
     <div class="col-md-8" [hidden]="!chatService.user">
       <div class="jumbotron" [hidden]="!chatService.user">
-        
-        <div class="row">
-          <div class="col-md-6" [hidden]="!chatService.user">
-              <div class="card card-body">
-                <h4 class="card-title">Destination</h4>
-                <p class="card-text">Some content</p>
-                <div class="flex-row">
-                    <a class="card-link">Card link</a>
+
+        <div class="rowSpacing">
+          <div class="row">
+            <div class="col-md-6" [hidden]="!chatService.user">
+              <div class="spacing">
+                <div class="card card-body">
+                  <h4 class="card-title">Destination</h4>
+                  <p class="card-text">Some content</p>
                 </div>
               </div>
+            </div>
+            <div class="col-md-6" [hidden]="!chatService.user">
+                <div class="card card-body">
+                  <h4 class="card-title">Budget</h4>
+                  <p class="card-text">Some content</p>
+                </div>
+            </div>
           </div>
-          <div class="col-md-6" [hidden]="!chatService.user">
-              <div class="card card-body">
-                <h4 class="card-title">Budget</h4>
-                <p class="card-text">Some content</p>
-                <div class="flex-row">
-                    <a class="card-link">Card link</a>
+          <div class="row">
+            <div class="col-md-6" [hidden]="!chatService.user">
+                <div class="card card-body">
+                  <h4 class="card-title">Flights</h4>
+                  <p class="card-text">Some content</p>
                 </div>
-              </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6" [hidden]="!chatService.user">
-              <div class="card card-body">
-                <h4 class="card-title">Dates</h4>
-                <p class="card-text">Some content</p>
-                <div class="flex-row">
-                    <a class="card-link">Card link</a>
+            </div>
+            <div class="col-md-6" [hidden]="!chatService.user">
+                <div class="card card-body">
+                  <h4 class="card-title">Activities</h4>
+                  <p class="card-text">Some content</p>
                 </div>
-              </div>
-          </div>
-          <div class="col-md-6" [hidden]="!chatService.user">
-              <div class="card card-body">
-                <h4 class="card-title">Activities</h4>
-                <p class="card-text">Some content</p>
-                <div class="flex-row">
-                    <a class="card-link">Card link</a>
-                </div>
-              </div>
+            </div>
           </div>
         </div>
 
@@ -84,3 +87,7 @@
   </div>
 
 </div>
+
+</body>
+
+</html>
