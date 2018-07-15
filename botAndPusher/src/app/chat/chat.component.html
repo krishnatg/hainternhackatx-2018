@@ -25,6 +25,6 @@
 
   <div class="d-flex flex-row">
     <input [(ngModel)]="message" type="text" class="form-control" placeholder="Enter message" style="margin-right: 10px">
-    <button [disabled]="!message || sending" (onclick)="sendMessage(message)" class="btn btn-primary"> {{sending ? 'Sending' : 'Send'}}</button>
+    <button [disabled]="!message || sending" (click)="sendMessage(message)" class="btn btn-primary"> {{sending ? 'Sending' : 'Send'}}</button>
   </div>
 </div>
