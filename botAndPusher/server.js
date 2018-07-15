@@ -159,4 +159,37 @@ app.get('/api/flights', (req, res) => {
   res.send(finalTripDetails);
 });
 
+app.get('/api/origins', (req, res) => {
+  var allOrigins = [];
+  for (user of sourceMap.keys()) {
+    origin = {};
+    origin['user'] = user;
+    origin['source'] = sourceMap.get(user);
+    allOrigins.push(origin);
+  }
+  res.send(allOrigins);
+});
+
+app.get('/api/destinations', (req, res) => {
+  var allDestinations = [];
+  for (user of destinationMap.keys()) {
+    destination = {};
+    destination['user'] = user;
+    destination['dest'] = destinationMap.get(user);
+    allDestinations.push(destination);
+  }
+  res.send(allDestinations);
+});
+
+app.get('/api/budgets', (req, res) => {
+  var allBudgets = [];
+  for (user of budgetMap.keys()) {
+    budget = {};
+    budget['user'] = user;
+    budget['value'] = budgetMap.get(user);
+    allBudgets.push(budget);
+  }
+  res.send(allBudgets);
+});
+
 app.listen(process.env.PORT || 2000, () => console.log('Listening at 2000'))
