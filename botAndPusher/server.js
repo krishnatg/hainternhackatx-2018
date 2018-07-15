@@ -25,6 +25,7 @@ const destinationMap = new Map();
 const budgetMap = new Map();
 const sourceMap = new Map();
 const d1 = new Map();
+const finalTripDetails = [];
 
 app.post('/message', async (req, res) => {
   // simulate actual db save with id and createdAt added
@@ -117,21 +118,28 @@ app.post('/message', async (req, res) => {
     d2 = d1.get(destCity);
     for (var srcCity of d2.keys()) {
       if (d2.get(srcCity) === 0) {
+        trip_dict = {};
         console.log('run API call');
         const srcApt = airportCodes[srcCity];
         const destApt = airportCodes[destCity];
-        getFlightDetails(srcApt, destApt, '2018-08-14').then(
-          result => console.log(result.offers[0].totalFare)
+        getFlightDetails(srcApt, destApt, '2018-08-14')
+        .then(
+          result => {
+            // console.log(result.offers[0].totalFare),
+            trip_dict['src'] = result.legs[0].segments[0].departureAirportCode,
+            trip_dict['dest'] = result.legs[0].segments[0].arrivalAirportCode,
+            trip_dict['cost'] = result.offers[0].totalFare,
+            trip_dict['airline'] = result.legs[0].segments[0].airlineName,
+            trip_dict['departtime'] = result.legs[0].segments[0].departureTime,
+            // console.log('all values set', trip_dict),
+            finalTripDetails.push(trip_dict),
+            d2.set(srcCity, 1)
+            console.log(finalTripDetails);
+          }
         );
-        break;
       }
     }
   }
-
-
-
-
-
   res.send(chat);
 })
 
@@ -146,5 +154,9 @@ app.post('/join', (req, res) => {
   pusher.trigger('chat-group', 'chat', chat)
   res.send(chat)
 })
+
+app.get('/api/flights', (req, res) => {
+  res.send(finalTripDetails);
+});
 
 app.listen(process.env.PORT || 2000, () => console.log('Listening at 2000'))
