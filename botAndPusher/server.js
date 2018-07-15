@@ -5,6 +5,8 @@ const cors = require('cors')
 require('dotenv').config()
 const shortId = require('shortid')
 const dialogFlow = require('./dialogFlow')
+const airportCodes = require('./airport_codes.json');
+const getFlightDetails = require('./flights');
 
 const app = express()
 app.use(cors())
@@ -108,6 +110,28 @@ app.post('/message', async (req, res) => {
     }
   }
   console.log(d1);
+
+  console.log('fhere');
+
+  for (var destCity of d1.keys()) {
+    d2 = d1.get(destCity);
+    for (var srcCity of d2.keys()) {
+      if (d2.get(srcCity) === 0) {
+        console.log('run API call');
+        const srcApt = airportCodes[srcCity];
+        const destApt = airportCodes[destCity];
+        getFlightDetails(srcApt, destApt, '2018-08-14').then(
+          result => console.log(result.offers[0].totalFare)
+        );
+        break;
+      }
+    }
+  }
+
+
+
+
+
   res.send(chat);
 })
 
