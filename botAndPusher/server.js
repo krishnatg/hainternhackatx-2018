@@ -5,6 +5,8 @@ const cors = require('cors')
 require('dotenv').config()
 const shortId = require('shortid')
 const dialogFlow = require('./dialogFlow')
+const airportCodes = require('./airport_codes.json');
+const getFlightDetails = require('./flights');
 
 const app = express()
 app.use(cors())
@@ -22,6 +24,7 @@ const pusher = new Pusher({
 const destinationMap = new Map();
 const budgetMap = new Map();
 const sourceMap = new Map();
+const d1 = new Map();
 
 app.post('/message', async (req, res) => {
   // simulate actual db save with id and createdAt added
@@ -48,28 +51,88 @@ app.post('/message', async (req, res) => {
       id: shortId.generate()
     }
     // pusher.trigger('chat-group', 'chat', botResponse)
-    // console.log('bot response', botResponse)
+    console.log('bot response', botResponse)
     var regExp = /\(([^)]+)\)/;
     if (botResponse.message.includes('destination')) {
       var matches = regExp.exec(botResponse.message);
-      var substrs = matches[1].split(',');
-      destinationMap.set(substrs[0], substrs[1]);
+      if (matches.length == 2) {
+        var substrs = matches[1].split(',');
+        destinationMap.set(substrs[0], substrs[1]);
+      }
     }
     else if (botResponse.message.includes('budget')) {
       var matches = regExp.exec(botResponse.message);
-      var substrs = matches[1].split(',');
-      budgetMap.set(substrs[0], substrs[1]);
+      if (matches.length == 2) {
+        var substrs = matches[1].split(',');
+        budgetMap.set(substrs[0], substrs[1]);
+      }
     }
     else if (botResponse.message.includes('source')) {
       var matches = regExp.exec(botResponse.message);
-      var substrs = matches[1].split(',');
-      sourceMap.set(substrs[0], substrs[1]);
+      if (matches.length == 2) {
+        var substrs = matches[1].split(',');
+        sourceMap.set(substrs[0], substrs[1]);
+      }
     }
   }
-  // console.log('destination:', destinationMap);
-  // console.log('budget:', budgetMap);
-  // console.log('source:', sourceMap);
-  res.send(chat)
+  console.log('destination:', destinationMap);
+  console.log('budget:', budgetMap);
+  console.log('source:', sourceMap);
+
+  for (var entry of sourceMap.entries()) {
+    var person = entry[0];
+    console.log('1');
+    console.log(person);
+    console.log(destinationMap.get(person));
+    if (destinationMap.has(person)) {
+      console.log('2');
+      src = entry[1];
+      dest = destinationMap.get(person);
+      if (d1.has(dest)) {
+        console.log('3');
+        if (d1.get(dest).has(src)) {
+          console.log('4');
+          // do nothing
+        }
+        else {
+          d1.get(dest).set(src, 0);
+          console.log('5');
+        }
+      }
+      else {
+        console.log('6');
+        d1.set(dest, new Map());
+        d1.get(dest).set(src, 0);
+      }
+    }
+    else {
+      console.log('7');
+    }
+  }
+  console.log(d1);
+
+  console.log('fhere');
+
+  for (var destCity of d1.keys()) {
+    d2 = d1.get(destCity);
+    for (var srcCity of d2.keys()) {
+      if (d2.get(srcCity) === 0) {
+        console.log('run API call');
+        const srcApt = airportCodes[srcCity];
+        const destApt = airportCodes[destCity];
+        getFlightDetails(srcApt, destApt, '2018-08-14').then(
+          result => console.log(result.offers[0].totalFare)
+        );
+        break;
+      }
+    }
+  }
+
+
+
+
+
+  res.send(chat);
 })
 
 app.post('/join', (req, res) => {
