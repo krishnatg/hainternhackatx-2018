@@ -1,0 +1,36 @@
+## Inspiration
+
+We have all been in group conversations (on our favorite messenger app) where someone suggests we plan a trip together, and that starts off a thread with everyone pitching in with their preferences, their limitations, their interests, etc.
+
+Such a thread is usually messy in a sense that there is no particular structure to the conversation which we felt makes finalizing a plan difficult and tedious, which on many occasions would lead to the plan just getting cancelled.
+
+We wondered how we could help a group of people make sense of such a thread and get them closer to a point where they would successfully plan the trip they've been talking about!
+
+## What it does
+
+We have come up with a messenger application which uses NLP to understand the context of a trip-planning conversation in real-time and summarizes all discussed options in a concise manner and displays the best deals for those so as to help a group make an informed decision quickly.
+
+## How we built it
+
+We used Dialogflow to help us build a structure for a conversation, Pusher for the messaging infrastructure, angular.js for the UI, and node.js server-side to help interface all the components.
+
+## Challenges we ran into
+
+Using NLP for conversation analysis. Only one of us had prior knowledge of this.
+Pulling data from node.js to the front-end in a dynamically reloading section of the page.
+Using the Expedia APIs.
+
+## Accomplishments that we're proud of
+
+Getting this to actually work!
+Using NLP in our project. 
+
+## What we learned
+
+Cool ideas can transform into POCs in a short period of time.
+Hackathons are fun and a lot about learning.
+
+## What's next for PlanAway
+
+Fixing a few UI-related limitations.
+Adding more features to the NLP portion of the project.
