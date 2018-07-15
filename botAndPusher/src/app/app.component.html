@@ -1,4 +1,15 @@
-<div class="mainPage">
+<!doctype html>
+<html ng-app="demo">
+
+    <head>
+        <title>Hello AngularJS</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+       <script src="hello.js"></script>
+    </head>
+
+    <body>
+
+<div class="mainPage" ng-controller="Hello">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top scrolling-navbar">
@@ -50,7 +61,7 @@
           <div class="row">
             <div class="col-md-6" [hidden]="!chatService.user">
                 <div class="card card-body">
-                  <h4 class="card-title">Dates</h4>
+                  <h4 class="card-title">Flights</h4>
                   <p class="card-text">Some content</p>
                 </div>
             </div>
@@ -76,3 +87,7 @@
   </div>
 
 </div>
+
+</body>
+
+</html>
