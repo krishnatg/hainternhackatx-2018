@@ -19,6 +19,10 @@ const pusher = new Pusher({
   encrypted: true
 })
 
+const destinationMap = new Map();
+const budgetMap = new Map();
+const sourceMap = new Map();
+
 app.post('/message', async (req, res) => {
   // simulate actual db save with id and createdAt added
   const chat = {
@@ -28,22 +32,43 @@ app.post('/message', async (req, res) => {
   }
   // trigger this update to our pushers listeners
   pusher.trigger('chat-group', 'chat', chat)
+  // console.log('chat', chat);
 
   // check if this message was invoking our bot, /bot
-  if (chat.message.startsWith('/bot')) {
-    const message = chat.message.split('/bot')[1]
+  if (!chat.message.startsWith('/bot')) {
+    const message = chat.displayName + ": " + chat.message
+    // console.log("sending to bot", message)
     const response = await dialogFlow.send(message)
-    pusher.trigger('chat-group', 'chat', {
-      message: `@${chat.displayName} ${
-        response.data.result.fulfillment.speech
-      }`,
+    const botResponse = {
+      message: 
+        response.data.result.fulfillment.speech,
       displayName: 'Bot User',
       email: 'bot@we.com',
       createdAt: new Date().toISOString(),
       id: shortId.generate()
-    })
+    }
+    // pusher.trigger('chat-group', 'chat', botResponse)
+    // console.log('bot response', botResponse)
+    var regExp = /\(([^)]+)\)/;
+    if (botResponse.message.includes('destination')) {
+      var matches = regExp.exec(botResponse.message);
+      var substrs = matches[1].split(',');
+      destinationMap.set(substrs[0], substrs[1]);
+    }
+    else if (botResponse.message.includes('budget')) {
+      var matches = regExp.exec(botResponse.message);
+      var substrs = matches[1].split(',');
+      budgetMap.set(substrs[0], substrs[1]);
+    }
+    else if (botResponse.message.includes('source')) {
+      var matches = regExp.exec(botResponse.message);
+      var substrs = matches[1].split(',');
+      sourceMap.set(substrs[0], substrs[1]);
+    }
   }
-
+  // console.log('destination:', destinationMap);
+  // console.log('budget:', budgetMap);
+  // console.log('source:', sourceMap);
   res.send(chat)
 })
 
