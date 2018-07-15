@@ -21,6 +21,7 @@ const pusher = new Pusher({
 
 const destinationMap = new Map();
 const budgetMap = new Map();
+const sourceMap = new Map();
 
 app.post('/message', async (req, res) => {
   // simulate actual db save with id and createdAt added
@@ -36,7 +37,7 @@ app.post('/message', async (req, res) => {
   // check if this message was invoking our bot, /bot
   if (!chat.message.startsWith('/bot')) {
     const message = chat.displayName + ": " + chat.message
-    console.log("sending to bot", message)
+    // console.log("sending to bot", message)
     const response = await dialogFlow.send(message)
     const botResponse = {
       message: 
@@ -47,7 +48,7 @@ app.post('/message', async (req, res) => {
       id: shortId.generate()
     }
     // pusher.trigger('chat-group', 'chat', botResponse)
-    console.log('bot response', botResponse)
+    // console.log('bot response', botResponse)
     var regExp = /\(([^)]+)\)/;
     if (botResponse.message.includes('destination')) {
       var matches = regExp.exec(botResponse.message);
@@ -59,9 +60,15 @@ app.post('/message', async (req, res) => {
       var substrs = matches[1].split(',');
       budgetMap.set(substrs[0], substrs[1]);
     }
+    else if (botResponse.message.includes('source')) {
+      var matches = regExp.exec(botResponse.message);
+      var substrs = matches[1].split(',');
+      sourceMap.set(substrs[0], substrs[1]);
+    }
   }
   // console.log('destination:', destinationMap);
   // console.log('budget:', budgetMap);
+  // console.log('source:', sourceMap);
   res.send(chat)
 })
 
