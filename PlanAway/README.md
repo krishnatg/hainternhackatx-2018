@@ -1,4 +1,4 @@
-# BotAndPusher
+# PlanAway
 
 Demonstrating how to build a group chat using [Pusher](https://pusher.com/) with an Angular application. Also build a basic chatbot using the [Dialogflow](https://dialogflow.com) conversation platform formerly know as api.ai by Google.
 
